@@ -9,10 +9,12 @@ This n8n workflow monitors campaign performance every hour and alerts the team w
 
 ### Key Features
 - **Automated Data Collection**: Fetches campaign metrics every hour from AppGrowth API
-- **Anomaly Detection**: Compares current performance against historical averages
-- **Smart Alerting**: Only sends alerts for significant deviations (>20% from average)
+- **Smart Anomaly Detection**: Compares current performance against historical averages with volume-aware thresholds
+- **Volume-Based Filtering**: Prioritizes alerts based on campaign size and business impact
+- **Impact Scoring System**: Each anomaly receives an impact score (0-300+) for intelligent prioritization
+- **Multi-Tier Alert System**: 4 severity levels (CRITICAL, HIGH, MEDIUM, LOW) based on impact
 - **Alert Management**: Tracks which anomalies have been reported to prevent duplicate alerts
-- **Slack Integration**: Sends formatted alerts to `#chardonnay_tricky_alerts` channel
+- **Slack Integration**: Sends formatted, prioritized alerts to `#chardonnay_tricky_alerts` channel
 
 ### Workflow Nodes
 
@@ -29,13 +31,34 @@ This n8n workflow monitors campaign performance every hour and alerts the team w
 11. **Mark Alert as Sent in Google Sheets**: Updates alert status in spreadsheet
 
 ### Metrics Monitored
-- **CPI** (Cost Per Install): Alert on increase >20% from average
-- **CTR** (Click Through Rate): Alert on decrease >20% from average
-- **IPM** (Installs Per Mille): Alert on decrease >20% from average
+- **CPI** (Cost Per Install): Alert on increase (15-30% threshold based on campaign size)
+- **CTR** (Click Through Rate): Alert on decrease (15-30% threshold based on campaign size)
+- **IPM** (Installs Per Mille): Alert on decrease (15-30% threshold based on campaign size)
 
-### Alert Severity
-- **HIGH** (🔴): 2+ metrics showing anomalies
-- **MEDIUM** (🟡): 1 metric showing anomaly
+### Volume-Based Campaign Tiers
+| Tier | Min Installs | Min Spend | Sensitivity |
+|------|--------------|-----------|-------------|
+| **CRITICAL** | 50 | $500 | High (15% threshold) |
+| **HIGH** | 25 | $200 | Standard (20% threshold) |
+| **MEDIUM** | 10 | $50 | Standard (20% threshold) |
+| **LOW** | 5 | $20 | Reduced (30% threshold) |
+| **IGNORE** | <5 | <$20 | No alerts |
+
+### Alert Severity Levels
+- **🔴 CRITICAL** (Impact Score ≥150): High-impact issues on large campaigns requiring immediate attention
+- **🟠 HIGH** (Impact Score 100-149): Significant issues requiring action within hours
+- **🟡 MEDIUM** (Impact Score 60-99): Notable issues to monitor and check within day
+- **🔵 LOW** (Impact Score 30-59): Minor issues, FYI only, optional review
+- **INFO** (Impact Score <30): Not sent (logged only)
+
+### Impact Score Calculation
+Impact scores are calculated based on:
+- **Campaign Volume**: Larger campaigns get higher base scores (10-100 points)
+- **Deviation Severity**: Larger metric changes add more points (5-50 points per metric)
+- **Multiple Metrics**: Bonus for 2+ affected metrics (15-30 points)
+- **Absolute Spend**: Extra points for campaigns with >$500-1000 daily spend (10-20 points)
+
+See [ALERT_LOGIC.md](./ALERT_LOGIC.md) for detailed documentation.
 
 ## Setup
 
@@ -74,10 +97,31 @@ The workflow expects a sheet with these columns:
 - alert_sent_at
 
 ### Customization
+
+#### Alert Thresholds
+Edit the configuration in "Analyze vs Average and Prepare Slack Alert" node:
+
+```javascript
+// Volume tier thresholds
+const VOLUME_TIERS = {
+  CRITICAL: { min_installs: 50, min_spend: 500 },
+  HIGH: { min_installs: 25, min_spend: 200 },
+  MEDIUM: { min_installs: 10, min_spend: 50 },
+  LOW: { min_installs: 5, min_spend: 20 }
+};
+
+// Deviation thresholds (%)
+const DEVIATION_THRESHOLDS = {
+  MINOR: { cpi: 15, ctr: 15, ipm: 15 },      // For CRITICAL tier
+  MODERATE: { cpi: 20, ctr: 20, ipm: 20 },   // For HIGH/MEDIUM tier
+  SEVERE: { cpi: 30, ctr: 30, ipm: 30 }      // For LOW tier
+};
+```
+
+#### Other Settings
 - Change schedule frequency in "Schedule Trigger - Every Hour" node
-- Adjust anomaly threshold (default 20%) in analysis code
 - Modify Slack channel in "Send Alert to Slack Channel" node
-- Customize alert message format in analysis node
+- Adjust impact score weights in `calculateImpactScore()` function
 
 ## Monitoring
 
