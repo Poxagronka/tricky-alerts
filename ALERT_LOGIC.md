@@ -6,15 +6,15 @@ This document describes the enhanced alert classification system that uses volum
 ## Key Improvements
 
 ### 1. **Volume-Based Campaign Tiers**
-Campaigns are classified into tiers based on their daily volume:
+Campaigns are classified into tiers based on their daily volume (calibrated for Tricky campaigns):
 
 | Tier | Min Installs | Min Spend | Description |
 |------|--------------|-----------|-------------|
-| **CRITICAL** | 50 | $500 | Large campaigns with significant budget |
-| **HIGH** | 25 | $200 | Medium-sized campaigns |
-| **MEDIUM** | 10 | $50 | Small campaigns |
-| **LOW** | 5 | $20 | Micro campaigns (reduced sensitivity) |
-| **IGNORE** | <5 | <$20 | Too small to monitor |
+| **CRITICAL** | 150 | $80 | Top campaigns (e.g., DEU/FRA with 200+ installs) |
+| **HIGH** | 60 | $40 | Large campaigns (e.g., JPN/USA with 60-150 installs) |
+| **MEDIUM** | 20 | $15 | Medium campaigns (standard volume) |
+| **LOW** | 5 | $5 | Small campaigns (reduced sensitivity) |
+| **IGNORE** | <5 | <$5 | Too small to monitor |
 
 ### 2. **Dynamic Deviation Thresholds**
 
@@ -53,9 +53,10 @@ Each anomaly receives an impact score (0-300+) based on:
 - 3+ affected metrics: +30 points (systemic issues)
 - 2 affected metrics: +15 points
 
-#### Spend Impact Bonus (10-20 points):
-- Daily spend >$1000: +20 points
-- Daily spend >$500: +10 points
+#### Spend Impact Bonus (5-20 points):
+- Daily spend >$100: +20 points (very large for Tricky)
+- Daily spend >$60: +12 points (large)
+- Daily spend >$30: +5 points (medium)
 
 ### 4. **Alert Severity Levels**
 
@@ -73,39 +74,40 @@ Final severity is determined by total impact score:
 
 ### Example 1: CRITICAL Alert
 ```
-Campaign: Large brand campaign
-Daily Stats: 80 installs, $850 spend
+Campaign: Top DEU campaign
+Daily Stats: 233 installs, $144 spend
 Anomalies:
-- CPI +35% ($10.50 vs avg $7.80)
-- CTR -28% (1.2% vs avg 1.7%)
+- CPI +35% ($0.42 vs avg $0.30)
+- IPM -28% (120 vs avg 167)
 
 Calculation:
 - Volume tier: CRITICAL (+100)
 - CPI deviation 35%: +25
-- CTR deviation 28%: +25
+- IPM deviation 28%: +25
 - 2 metrics bonus: +15
-- Spend >$500: +10
-Total Impact Score: 175 → CRITICAL
+- Spend >$100: +20
+Total Impact Score: 185 → CRITICAL
 ```
 
 ### Example 2: MEDIUM Alert
 ```
-Campaign: Small test campaign
-Daily Stats: 12 installs, $75 spend
+Campaign: Medium KOR campaign
+Daily Stats: 34 installs, $21 spend
 Anomalies:
-- IPM -25% (8.5 vs avg 11.3)
+- CTR -22% (1.8% vs avg 2.3%)
 
 Calculation:
 - Volume tier: MEDIUM (+30)
-- IPM deviation 25%: +25
+- CTR deviation 22%: +15
 - 1 metric (no bonus): +0
-Total Impact Score: 55 → LOW (not HIGH because small volume)
+- Spend $21 (no bonus): +0
+Total Impact Score: 45 → MEDIUM
 ```
 
 ### Example 3: Filtered Out (Too Small)
 ```
-Campaign: Micro campaign
-Daily Stats: 3 installs, $15 spend
+Campaign: Micro test campaign
+Daily Stats: 3 installs, $2 spend
 Result: IGNORE tier - no alert sent
 ```
 
@@ -151,19 +153,19 @@ Result: IGNORE tier - no alert sent
 Located in `Analyze vs Average and Prepare Slack Alert` node:
 
 ```javascript
-// Adjust these values to tune sensitivity
+// Настроено под реальные объемы Tricky кампаний
 const VOLUME_TIERS = {
-  CRITICAL: { min_installs: 50, min_spend: 500 },
-  HIGH: { min_installs: 25, min_spend: 200 },
-  MEDIUM: { min_installs: 10, min_spend: 50 },
-  LOW: { min_installs: 5, min_spend: 20 }
+  CRITICAL: { min_installs: 150, min_spend: 80 },  // Топ кампании
+  HIGH: { min_installs: 60, min_spend: 40 },       // Крупные кампании
+  MEDIUM: { min_installs: 20, min_spend: 15 },     // Средние кампании
+  LOW: { min_installs: 5, min_spend: 5 }           // Малые кампании
 };
 
 const DEVIATION_THRESHOLDS = {
-  CRITICAL: { cpi: 40, ctr: 40, ipm: 40 },
-  SEVERE: { cpi: 30, ctr: 30, ipm: 30 },
-  MODERATE: { cpi: 20, ctr: 20, ipm: 20 },
-  MINOR: { cpi: 15, ctr: 15, ipm: 15 }
+  CRITICAL: { cpi: 40, ctr: 40, ipm: 40 },  // Критическое отклонение
+  SEVERE: { cpi: 30, ctr: 30, ipm: 30 },    // Серьезное отклонение
+  MODERATE: { cpi: 20, ctr: 20, ipm: 20 },  // Умеренное отклонение
+  MINOR: { cpi: 15, ctr: 15, ipm: 15 }      // Небольшое отклонение
 };
 ```
 

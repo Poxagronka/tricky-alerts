@@ -36,13 +36,15 @@ This n8n workflow monitors campaign performance every hour and alerts the team w
 - **IPM** (Installs Per Mille): Alert on decrease (15-30% threshold based on campaign size)
 
 ### Volume-Based Campaign Tiers
+**Calibrated for Tricky campaign volumes:**
+
 | Tier | Min Installs | Min Spend | Sensitivity |
 |------|--------------|-----------|-------------|
-| **CRITICAL** | 50 | $500 | High (15% threshold) |
-| **HIGH** | 25 | $200 | Standard (20% threshold) |
-| **MEDIUM** | 10 | $50 | Standard (20% threshold) |
-| **LOW** | 5 | $20 | Reduced (30% threshold) |
-| **IGNORE** | <5 | <$20 | No alerts |
+| **CRITICAL** | 150 | $80 | High (15% threshold) |
+| **HIGH** | 60 | $40 | Standard (20% threshold) |
+| **MEDIUM** | 20 | $15 | Standard (20% threshold) |
+| **LOW** | 5 | $5 | Reduced (30% threshold) |
+| **IGNORE** | <5 | <$5 | No alerts |
 
 ### Alert Severity Levels
 - **🔴 CRITICAL** (Impact Score ≥150): High-impact issues on large campaigns requiring immediate attention
@@ -102,12 +104,12 @@ The workflow expects a sheet with these columns:
 Edit the configuration in "Analyze vs Average and Prepare Slack Alert" node:
 
 ```javascript
-// Volume tier thresholds
+// Volume tier thresholds (calibrated for Tricky campaigns)
 const VOLUME_TIERS = {
-  CRITICAL: { min_installs: 50, min_spend: 500 },
-  HIGH: { min_installs: 25, min_spend: 200 },
-  MEDIUM: { min_installs: 10, min_spend: 50 },
-  LOW: { min_installs: 5, min_spend: 20 }
+  CRITICAL: { min_installs: 150, min_spend: 80 },  // Top campaigns
+  HIGH: { min_installs: 60, min_spend: 40 },       // Large campaigns
+  MEDIUM: { min_installs: 20, min_spend: 15 },     // Medium campaigns
+  LOW: { min_installs: 5, min_spend: 5 }           // Small campaigns
 };
 
 // Deviation thresholds (%)
