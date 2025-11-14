@@ -1,0 +1,747 @@
+{
+  "name": "Tricky overall CTR/IPM drop alert",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://app.appgrowth.com/bi2/",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "httpBearerAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"start\": \"30d\",\n  \"end\": \"0d\",\n  \"by\": [\"campaign_id\", \"time_1d\"],\n  \"measures\": [\n    \"impressions\",\n    \"clicks\",\n    \"installs\",\n    \"gross_spend\",\n    \"cpi\",\n    \"cr\",\n    \"ipm\"\n  ],\n  \"filter_data\": {\n    \"flavor\": [\"tricky\", \"tricky_light\"]\n  },\n  \"date_column\": \"bid_timestamp\",\n  \"format\": \"csv\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -3696,
+        -384
+      ],
+      "id": "fb71ee28-1466-43e7-b6dd-ffe665f38351",
+      "name": "Fetch Campaign Metrics from API",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "sbzVc8CIn1AdV4LD",
+          "name": "AG"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w",
+          "mode": "list",
+          "cachedResultName": "Tricky_alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1957016058,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit#gid=1957016058"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "unique_key"
+          ],
+          "schema": [
+            {
+              "id": "unique_key",
+              "displayName": "unique_key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "impressions",
+              "displayName": "impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "clicks",
+              "displayName": "clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "installs",
+              "displayName": "installs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "spend",
+              "displayName": "spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "cpi",
+              "displayName": "cpi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ctr",
+              "displayName": "ctr",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "ipm",
+              "displayName": "ipm",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "anomaly_flag",
+              "displayName": "anomaly_flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "anomaly_details",
+              "displayName": "anomaly_details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "action",
+              "displayName": "action",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "alert_sent",
+              "displayName": "alert_sent",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "alert_sent_at",
+              "displayName": "alert_sent_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2880,
+        -640
+      ],
+      "id": "a3f0fa3f-2aea-437e-b1d2-61850ad4e7a1",
+      "name": "Save Formatted Data to Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zbFH0UpELCLxkXbf",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Сначала форматируем и группируем данные\nconst formattedData = {};\n\nitems.forEach(item => {\n  const data = item.json;\n  const campaignId = data.campaign_id || '';\n  const date = data.time_1d || '';\n  const uniqueKey = `${date}_${campaignId}`;\n  \n  const formattedItem = {\n    unique_key: uniqueKey,\n    campaign_id: campaignId,\n    date: date,\n    impressions: parseInt(data.impressions) || 0,\n    clicks: parseInt(data.clicks) || 0,\n    installs: parseInt(data.installs) || 0,\n    spend: data.gross_spend ? parseFloat(data.gross_spend).toFixed(2) : '0.00',\n    cpi: data.cpi && data.cpi !== '' ? parseFloat(data.cpi) : 0,\n    ctr: data.cr ? parseFloat(data.cr) : 0,\n    ipm: data.ipm ? parseFloat(data.ipm) : 0\n  };\n  \n  // Группируем по campaign_id для анализа аномалий\n  if (!formattedData[campaignId]) {\n    formattedData[campaignId] = [];\n  }\n  formattedData[campaignId].push(formattedItem);\n});\n\n// Функция для расчета процентного изменения\nfunction calculateChange(prev, current) {\n  if (prev === 0) return 0;\n  return ((current - prev) / prev) * 100;\n}\n\n// Анализируем аномалии и добавляем флаги\nconst finalItems = [];\n\nObject.keys(formattedData).forEach(campaignId => {\n  const campaignData = formattedData[campaignId];\n  \n  // Сортируем по дате\n  campaignData.sort((a, b) => new Date(a.date) - new Date(b.date));\n  \n  // Анализируем каждую запись\n  campaignData.forEach((current, index) => {\n    let anomalyFlag = '';\n    let anomalyDetails = '';\n    \n    if (index > 0) {\n      const prev = campaignData[index - 1];\n      \n      // Пропускаем дни с малым количеством данных\n      if (prev.impressions >= 100 && current.impressions >= 100) {\n        const cpiChange = calculateChange(prev.cpi, current.cpi);\n        const ctrChange = calculateChange(prev.ctr, current.ctr);\n        const ipmChange = calculateChange(prev.ipm, current.ipm);\n        \n        const threshold = 30;\n        let anomalies = [];\n        \n        if (Math.abs(cpiChange) >= threshold && prev.cpi > 0) {\n          anomalies.push(`CPI ${cpiChange > 0 ? '+' : ''}${cpiChange.toFixed(1)}%`);\n        }\n        \n        if (Math.abs(ctrChange) >= threshold && prev.ctr > 0) {\n          anomalies.push(`CTR ${ctrChange > 0 ? '+' : ''}${ctrChange.toFixed(1)}%`);\n        }\n        \n        if (Math.abs(ipmChange) >= threshold && prev.ipm > 0) {\n          anomalies.push(`IPM ${ipmChange > 0 ? '+' : ''}${ipmChange.toFixed(1)}%`);\n        }\n        \n        if (anomalies.length > 0) {\n          anomalyFlag = anomalies.length >= 2 ? '🔴 HIGH' : '🟡 MEDIUM';\n          anomalyDetails = anomalies.join(' | ');\n        }\n      }\n    }\n    \n    finalItems.push({\n      json: {\n        unique_key: current.unique_key,\n        campaign_id: current.campaign_id,\n        date: current.date,\n        impressions: current.impressions,\n        clicks: current.clicks,\n        installs: current.installs,\n        spend: current.spend,\n        cpi: current.cpi > 0 ? current.cpi.toFixed(2) : 'N/A',\n        ctr: current.ctr.toFixed(2),\n        ipm: current.ipm.toFixed(2),\n        anomaly_flag: anomalyFlag,\n        anomaly_details: anomalyDetails\n      }\n    });\n  });\n});\n\nreturn finalItems;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3120,
+        -368
+      ],
+      "id": "a95c0a11-1eb6-4abf-8510-599556160b73",
+      "name": "Format Data and Detect Day-to-Day Anomalies"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -3984,
+        -384
+      ],
+      "id": "165c3799-04c1-4683-9622-62546487979d",
+      "name": "Schedule Trigger - Every Hour"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Получаем все записи из предыдущего нода\nconst allRecords = $input.all().map(item => item.json);\n\n// Группируем записи по campaign_id для расчёта средних значений\nconst campaignStats = {};\n\nallRecords.forEach(record => {\n  if (!campaignStats[record.campaign_id]) {\n    campaignStats[record.campaign_id] = {\n      cpi_values: [],\n      ctr_values: [],\n      ipm_values: []\n    };\n  }\n  \n  // Добавляем значения только если есть минимум 10 инсталлов\n  if (record.installs >= 10) {\n    if (record.cpi && !isNaN(record.cpi)) {\n      campaignStats[record.campaign_id].cpi_values.push(parseFloat(record.cpi));\n    }\n    if (record.ctr && !isNaN(record.ctr)) {\n      campaignStats[record.campaign_id].ctr_values.push(parseFloat(record.ctr));\n    }\n    if (record.ipm && !isNaN(record.ipm)) {\n      campaignStats[record.campaign_id].ipm_values.push(parseFloat(record.ipm));\n    }\n  }\n});\n\n// Вычисляем средние значения для каждой кампании\nconst campaignAverages = {};\n\nObject.keys(campaignStats).forEach(campaignId => {\n  const stats = campaignStats[campaignId];\n  \n  campaignAverages[campaignId] = {\n    avg_cpi: stats.cpi_values.length > 0 \n      ? stats.cpi_values.reduce((a, b) => a + b, 0) / stats.cpi_values.length \n      : null,\n    avg_ctr: stats.ctr_values.length > 0 \n      ? stats.ctr_values.reduce((a, b) => a + b, 0) / stats.ctr_values.length \n      : null,\n    avg_ipm: stats.ipm_values.length > 0 \n      ? stats.ipm_values.reduce((a, b) => a + b, 0) / stats.ipm_values.length \n      : null\n  };\n});\n\n// Функция для определения аномалий на основе отклонения от среднего\nfunction detectAnomalies(record, averages) {\n  if (!averages || record.installs < 10) return null;\n  \n  const anomalies = [];\n  const threshold = 0.20; // 20% отклонение для определения аномалии\n  \n  // Проверяем CPI (рост - плохо)\n  if (record.cpi && averages.avg_cpi) {\n    const cpiChange = (record.cpi - averages.avg_cpi) / averages.avg_cpi;\n    if (cpiChange > threshold) {\n      anomalies.push(`CPI +${(cpiChange * 100).toFixed(1)}% (${record.cpi.toFixed(2)} vs avg ${averages.avg_cpi.toFixed(2)})`);\n    }\n  }\n  \n  // Проверяем CTR (падение - плохо)\n  if (record.ctr && averages.avg_ctr) {\n    const ctrChange = (record.ctr - averages.avg_ctr) / averages.avg_ctr;\n    if (ctrChange < -threshold) {\n      anomalies.push(`CTR ${(ctrChange * 100).toFixed(1)}% (${record.ctr.toFixed(2)}% vs avg ${averages.avg_ctr.toFixed(2)}%)`);\n    }\n  }\n  \n  // Проверяем IPM (падение - плохо)\n  if (record.ipm && averages.avg_ipm) {\n    const ipmChange = (record.ipm - averages.avg_ipm) / averages.avg_ipm;\n    if (ipmChange < -threshold) {\n      anomalies.push(`IPM ${(ipmChange * 100).toFixed(1)}% (${record.ipm.toFixed(2)} vs avg ${averages.avg_ipm.toFixed(2)})`);\n    }\n  }\n  \n  if (anomalies.length === 0) return null;\n  \n  return {\n    flag: anomalies.length >= 2 ? 'HIGH' : 'MEDIUM',\n    details: anomalies.join(', ')\n  };\n}\n\n// Обрабатываем записи и определяем новые аномалии\nconst unsentAnomalies = [];\n\nallRecords.forEach(record => {\n  // Проверяем минимум 10 инсталлов\n  if (record.installs < 10) return;\n  \n  // Проверяем что алерт еще не был отправлен\n  const notSent = !record.alert_sent || record.alert_sent === '' || record.alert_sent === 'FALSE' || record.alert_sent === false;\n  if (!notSent) return;\n  \n  // Получаем средние значения для этой кампании\n  const averages = campaignAverages[record.campaign_id];\n  if (!averages) return;\n  \n  // Определяем аномалии\n  const anomaly = detectAnomalies(record, averages);\n  \n  if (anomaly) {\n    unsentAnomalies.push({\n      ...record,\n      anomaly_flag: anomaly.flag,\n      anomaly_details: anomaly.details\n    });\n  }\n});\n\n// Удаляем дубликаты по unique_key\nconst uniqueAnomalies = {};\nunsentAnomalies.forEach(record => {\n  if (!uniqueAnomalies[record.unique_key]) {\n    uniqueAnomalies[record.unique_key] = record;\n  }\n});\n\nconst anomaliesToSend = Object.values(uniqueAnomalies);\n\n// Если нет новых аномалий для отправки\nif (anomaliesToSend.length === 0) {\n  return [{\n    json: {\n      action: \"skip\",\n      message: \"No new anomalies to send\"\n    }\n  }];\n}\n\n// Сортируем по severity\nconst highSeverity = anomaliesToSend.filter(r => r.anomaly_flag === 'HIGH');\nconst mediumSeverity = anomaliesToSend.filter(r => r.anomaly_flag === 'MEDIUM');\n\n// Определяем уровень алерта\nconst alertEmoji = highSeverity.length > 0 ? '🚨' : '⚠️';\n\n// Формируем текстовое сообщение для Slack\nlet textMessage = `${alertEmoji} *NEGATIVE ANOMALIES IN TRICKY CAMPAIGNS*\\n`;\ntextMessage += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n`;\ntextMessage += `📊 *Summary:*\\n`;\ntextMessage += `• Negative anomalies detected: ${anomaliesToSend.length}\\n`;\ntextMessage += `• High severity (2+ metrics): ${highSeverity.length}\\n`;\ntextMessage += `• Medium severity (1 metric): ${mediumSeverity.length}\\n`;\ntextMessage += `• Time: ${new Date().toLocaleString('en-US', {timeZone: 'Europe/Warsaw', dateStyle: 'short', timeStyle: 'short'})}\\n\\n`;\n\nif (highSeverity.length > 0) {\n  textMessage += `🔴 *HIGH SEVERITY (Multiple Metrics):*\\n`;\n  highSeverity.slice(0, 5).forEach(record => {\n    textMessage += `• Campaign <https://app.appgrowth.com/campaigns/${record.campaign_id}|*${record.campaign_id}*> | ${record.date}\\n`;\n    textMessage += `  ${record.anomaly_details}\\n`;\n  });\n  if (highSeverity.length > 5) {\n    textMessage += `_...and ${highSeverity.length - 5} more high severity alerts_\\n`;\n  }\n  textMessage += `\\n`;\n}\n\nif (mediumSeverity.length > 0) {\n  textMessage += `🟡 *MEDIUM SEVERITY:*\\n`;\n  mediumSeverity.slice(0, 10).forEach(record => {\n    textMessage += `• Campaign <https://app.appgrowth.com/campaigns/${record.campaign_id}|${record.campaign_id}> | ${record.date}: ${record.anomaly_details}\\n`;\n  });\n  if (mediumSeverity.length > 10) {\n    textMessage += `_...and ${mediumSeverity.length - 10} more medium severity alerts_\\n`;\n  }\n  textMessage += `\\n`;\n}\n\ntextMessage += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n`;\ntextMessage += `📊 <https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit?gid=1957016058#gid=1957016058|View Full Report> | `;\ntextMessage += `🎯 <https://app.appgrowth.com/campaigns|Manage Campaigns>`;\n\n// Формируем массив для вывода\nconst output = [];\n\n// Первый элемент - для отправки в Slack\noutput.push({\n  json: {\n    action: \"send_slack\",\n    text: textMessage,\n    channel: \"#tricky-campaign-alerts\",\n    anomalies_count: anomaliesToSend.length,\n    high_count: highSeverity.length,\n    medium_count: mediumSeverity.length\n  }\n});\n\n// Остальные элементы - для обновления каждой строки в Google Sheets\nanomaliesToSend.forEach(record => {\n  output.push({\n    json: {\n      action: \"update_sheet\",\n      unique_key: record.unique_key,\n      campaign_id: record.campaign_id,\n      date: record.date,\n      impressions: record.impressions,\n      clicks: record.clicks,\n      installs: record.installs,\n      spend: record.spend,\n      cpi: record.cpi,\n      ctr: record.ctr,\n      ipm: record.ipm,\n      anomaly_flag: record.anomaly_flag,\n      anomaly_details: record.anomaly_details,\n      alert_sent: \"TRUE\",\n      alert_sent_at: new Date().toISOString()\n    }\n  });\n});\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -2400,
+        -688
+      ],
+      "id": "7c55fde3-0807-4629-96cc-7573723bbce5",
+      "name": "Analyze vs Average and Prepare Slack Alert"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "cdbab625-5122-465c-ba28-ef767da9ea3e",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "send_slack",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "a84efec9-81a2-49c7-b450-32cab160edaf",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "update_sheet",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "3ed8a533-b8ad-4c44-8d31-34f1304aeafd",
+                    "leftValue": "={{ $json.action }}",
+                    "rightValue": "skip",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -2224,
+        -496
+      ],
+      "id": "2aa1c83b-53bd-4e82-9e94-6514db49e476",
+      "name": "Route by Action Type",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "661bafb4-be0a-4131-aeb2-055c1ae91801",
+              "leftValue": "={{ $json.action }}",
+              "rightValue": "send_slack",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -1904,
+        -576
+      ],
+      "id": "d905c1d3-935d-4bc5-8b96-57a43db34ef4",
+      "name": "Check if Slack Alert Needed"
+    },
+    {
+      "parameters": {
+        "select": "channel",
+        "channelId": {
+          "__rl": true,
+          "value": "#chardonnay_tricky_alerts",
+          "mode": "name"
+        },
+        "text": "={{ $json.text }}",
+        "otherOptions": {}
+      },
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 2.3,
+      "position": [
+        -1584,
+        -608
+      ],
+      "id": "451b96b1-a675-428f-97c0-978a053d1010",
+      "name": "Send Alert to Slack Channel",
+      "webhookId": "d47fdc57-399a-49b9-bf3a-b455f552e068",
+      "credentials": {
+        "slackApi": {
+          "id": "2x5ACeMU4t526PJi",
+          "name": "Slack account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w",
+          "mode": "list",
+          "cachedResultName": "Tricky_alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1957016058,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit#gid=1957016058"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [
+            "unique_key"
+          ],
+          "schema": [
+            {
+              "id": "unique_key",
+              "displayName": "unique_key",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "campaign_id",
+              "displayName": "campaign_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "date",
+              "displayName": "date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "impressions",
+              "displayName": "impressions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "clicks",
+              "displayName": "clicks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "installs",
+              "displayName": "installs",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "spend",
+              "displayName": "spend",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cpi",
+              "displayName": "cpi",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ctr",
+              "displayName": "ctr",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ipm",
+              "displayName": "ipm",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "anomaly_flag",
+              "displayName": "anomaly_flag",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "anomaly_details",
+              "displayName": "anomaly_details",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -1744,
+        -352
+      ],
+      "id": "55a58c27-b09a-4568-af48-87e1809dabce",
+      "name": "Mark Alert as Sent in Google Sheets",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zbFH0UpELCLxkXbf",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w",
+          "mode": "list",
+          "cachedResultName": "Tricky_alerts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1957016058,
+          "mode": "list",
+          "cachedResultName": "Sheet2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1RFC-qsaJiJPIv0lIgAW9ndUXThto3Qf0iiovMMqNl1w/edit#gid=1957016058"
+        },
+        "options": {
+          "dataLocationOnSheet": {
+            "values": {
+              "rangeDefinition": "detectAutomatically"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        -2640,
+        -800
+      ],
+      "id": "6c76620e-4f68-44ae-b342-3e683cea6870",
+      "name": "Read All Historical Data from Google Sheets",
+      "executeOnce": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "zbFH0UpELCLxkXbf",
+          "name": "Google Sheets account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const csv = items[0].json.data; // или items[0].binary.data\n\n// Парсим CSV\nconst lines = csv.trim().split('\\n');\nconst headers = lines[0].split(',');\nconst result = [];\n\nfor (let i = 1; i < lines.length; i++) {\n  const values = lines[i].split(',');\n  const obj = {};\n  headers.forEach((header, index) => {\n    obj[header] = values[index];\n  });\n  result.push({ json: obj });\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -3440,
+        -368
+      ],
+      "id": "b7835f35-f7d0-47f8-a204-acc8178f9e8e",
+      "name": "Parse CSV to JSON"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Fetch Campaign Metrics from API": {
+      "main": [
+        [
+          {
+            "node": "Parse CSV to JSON",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Data and Detect Day-to-Day Anomalies": {
+      "main": [
+        [
+          {
+            "node": "Save Formatted Data to Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger - Every Hour": {
+      "main": [
+        [
+          {
+            "node": "Fetch Campaign Metrics from API",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save Formatted Data to Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Read All Historical Data from Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze vs Average and Prepare Slack Alert": {
+      "main": [
+        [
+          {
+            "node": "Route by Action Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Action Type": {
+      "main": [
+        [
+          {
+            "node": "Check if Slack Alert Needed",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Mark Alert as Sent in Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check if Slack Alert Needed": {
+      "main": [
+        [
+          {
+            "node": "Send Alert to Slack Channel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read All Historical Data from Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Analyze vs Average and Prepare Slack Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse CSV to JSON": {
+      "main": [
+        [
+          {
+            "node": "Format Data and Detect Day-to-Day Anomalies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner",
+    "availableInMCP": false
+  },
+  "versionId": "168c340a-57ec-4921-9ee1-55cbd3fbff75",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "77b8033c475e61e01767aac1684e0181a585241932640ee920f5df357b9f3571"
+  },
+  "id": "bmFygFlH2yzl5QVD",
+  "tags": []
+}
